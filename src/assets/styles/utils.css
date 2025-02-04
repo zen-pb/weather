@@ -1,3 +1,25 @@
+@font-face {
+    font-family: 'CeraRoundPro';
+    src: url('../fonts/CeraRoundProRegular.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CeraRoundPro';
+    src: url('../fonts/CeraRoundProMedium.otf');
+    font-weight: 500;
+    font-style: medium;
+}
+
+@font-face {
+    font-family: 'CeraRoundPro';
+    src: url('../fonts/CeraRoundProBold.otf');
+    font-weight: 700;
+    font-style: bold;
+}
+
+
 /* 1. Use a more-intuitive box-sizing model */
 *,
 *::before,
@@ -15,6 +37,7 @@ body {
     line-height: 1.5;
     /* 4. Improve text rendering */
     -webkit-font-smoothing: antialiased;
+    font-family: "CeraRoundPro";
 }
 
 /* 5. Improve media defaults */
