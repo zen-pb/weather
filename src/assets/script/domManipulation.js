@@ -13,14 +13,19 @@ export default function domManipulation() {
       } else {
         const location = searchInput.value.trim();
         searchInput.value = "";
-        searchInput.blur();
+        searchInput.disabled = true;
+        searchBTN.disabled = true;
 
+        content.className = "";
         content.replaceChildren(Loader());
         container.classList.add("gap");
 
         const locationData = await weatherAPI(location);
 
-        console.log(locationData);
+        content.replaceChildren(loadData(locationData));
+        content.classList.add("weather");
+        searchInput.disabled = false;
+        searchBTN.disabled = false;
       }
     }
   };
@@ -45,3 +50,5 @@ function Loader() {
 
   return span;
 }
+
+function loadData(data) {}
