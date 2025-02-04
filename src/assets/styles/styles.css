@@ -7,11 +7,11 @@
     min-width: 300px;
     margin-inline: auto;
     height: 85%;
+    gap: 1rem;
 }
 
 .text {
     text-align: center;
-    margin-bottom: 1rem;
     flex-grow: 0;
 
     & .title {
