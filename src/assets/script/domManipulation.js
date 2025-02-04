@@ -1,21 +1,25 @@
 import weatherAPI from "./weatherAPI";
 
 export default function domManipulation() {
+  const container = document.querySelector(".container");
+  const content = document.getElementById("content");
   const searchInput = document.getElementById("searchInput");
   const searchBTN = document.getElementById("searchBTN");
-  let isLoading;
 
   const handleSubmit = async (event) => {
-    isLoading = true;
-
     if (event.type === "click" || event.code === "Enter") {
       if (isEmpty()) {
         searchInput.focus();
       } else {
         const location = searchInput.value.trim();
-        const locationData = await weatherAPI(location);
-        isLoading = false;
         searchInput.value = "";
+        searchInput.blur();
+
+        content.replaceChildren(Loader());
+        container.classList.add("gap");
+
+        const locationData = await weatherAPI(location);
+
         console.log(locationData);
       }
     }
@@ -33,4 +37,11 @@ export default function domManipulation() {
   searchBTN.addEventListener("click", handleSubmit);
 
   document.addEventListener("keydown", handleSubmit);
+}
+
+function Loader() {
+  const span = document.createElement("span");
+  span.className = "loader";
+
+  return span;
 }
