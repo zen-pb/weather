@@ -38,6 +38,7 @@ body {
     /* 4. Improve text rendering */
     -webkit-font-smoothing: antialiased;
     font-family: "CeraRoundPro";
+    height: 100dvh;
 }
 
 /* 5. Improve media defaults */
