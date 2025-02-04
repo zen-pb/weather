@@ -8,6 +8,11 @@
     margin-inline: auto;
     height: 85%;
     gap: 1rem;
+    transition: gap 0.5s ease;
+}
+
+.gap {
+    gap: 8rem;
 }
 
 .text {
@@ -33,26 +38,44 @@
         outline: 1px solid #dfe1e5;
     }
 
+    &:has(:disabled) {
+        background-color: #efefef4d;
+        cursor: not-allowed;
+    }
+
     & input {
         width: 100%;
         padding: 10px 0;
         padding-left: 14px;
         border: none;
         border-radius: 24px;
+        background-color: transparent;
 
         &:focus {
             outline: none;
+        }
+
+        &:disabled {
+            cursor: not-allowed;
         }
     }
 
     & button {
         border: none;
         height: 100%;
-        background-color: inherit;
-        border-radius: 24px;
+        background-color: transparent;
+        border-radius: 50%;
         padding: 0;
-        padding-inline: 0 13px;
+        padding-inline: 0 15px;
         cursor: pointer;
+
+        &:focus {
+            outline: none;
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+        }
     }
 }
 
@@ -72,14 +95,14 @@
     width: 48em;
     height: 48em;
     background-image:
-        radial-gradient(circle 10px, #FFF 100%, transparent 0),
-        radial-gradient(circle 10px, #FFF 100%, transparent 0),
-        radial-gradient(circle 10px, #FFF 100%, transparent 0),
-        radial-gradient(circle 10px, #FFF 100%, transparent 0),
-        radial-gradient(circle 10px, #FFF 100%, transparent 0),
-        radial-gradient(circle 10px, #FFF 100%, transparent 0),
-        radial-gradient(circle 10px, #FFF 100%, transparent 0),
-        radial-gradient(circle 10px, #FFF 100%, transparent 0);
+        radial-gradient(circle 10px, #000 100%, transparent 0),
+        radial-gradient(circle 10px, #000 100%, transparent 0),
+        radial-gradient(circle 10px, #000 100%, transparent 0),
+        radial-gradient(circle 10px, #000 100%, transparent 0),
+        radial-gradient(circle 10px, #000 100%, transparent 0),
+        radial-gradient(circle 10px, #000 100%, transparent 0),
+        radial-gradient(circle 10px, #000 100%, transparent 0),
+        radial-gradient(circle 10px, #000 100%, transparent 0);
     background-position: 0em -18em, 0em 18em, 18em 0em, -18em 0em,
         13em -13em, -13em -13em, 13em 13em, -13em 13em;
     background-repeat: no-repeat;
@@ -90,7 +113,7 @@
 
 .loader::after {
     font-size: 1px;
-    background: #fff;
+    background: #000;
     animation: bounce 1s ease-in infinite;
 }
 
