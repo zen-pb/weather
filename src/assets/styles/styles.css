@@ -6,22 +6,22 @@
     max-width: 1500px;
     min-width: 300px;
     margin-inline: auto;
-    height: 85%;
+    height: 100%;
     gap: 1rem;
     transition: gap 0.5s ease;
 }
 
 .gap {
-    gap: 8rem;
+    gap: 5rem;
 }
 
 .text {
     text-align: center;
     flex-grow: 0;
+}
 
-    & .title {
-        font-size: 69px;
-    }
+.text .title {
+    font-size: 69px;
 }
 
 .search {
@@ -33,50 +33,51 @@
     width: 90%;
     border: 1px solid #dfe1e5;
     border-radius: 24px;
+    margin-bottom: 4rem;
+}
 
-    &:focus-within {
-        outline: 1px solid #dfe1e5;
-    }
+.search:focus-within {
+    outline: 1px solid #dfe1e5;
+}
 
-    &:has(:disabled) {
-        background-color: #efefef4d;
-        cursor: not-allowed;
-    }
+.search:has(:disabled) {
+    background-color: #efefef4d;
+    cursor: not-allowed;
+}
 
-    & input {
-        width: 100%;
-        padding: 10px 0;
-        padding-left: 14px;
-        border: none;
-        border-radius: 24px;
-        background-color: transparent;
+.search input {
+    width: 100%;
+    padding: 10px 0;
+    padding-left: 14px;
+    border: none;
+    border-radius: 24px;
+    background-color: transparent;
+}
 
-        &:focus {
-            outline: none;
-        }
+.search input:focus {
+    outline: none;
+}
 
-        &:disabled {
-            cursor: not-allowed;
-        }
-    }
+.search input:disabled {
+    cursor: not-allowed;
+}
 
-    & button {
-        border: none;
-        height: 100%;
-        background-color: transparent;
-        border-radius: 50%;
-        padding: 0;
-        padding-inline: 0 15px;
-        cursor: pointer;
+.search button {
+    border: none;
+    height: 100%;
+    background-color: transparent;
+    border-radius: 50%;
+    padding: 0;
+    padding-inline: 0 15px;
+    cursor: pointer;
+}
 
-        &:focus {
-            outline: none;
-        }
+.search button:focus {
+    outline: none;
+}
 
-        &:disabled {
-            cursor: not-allowed;
-        }
-    }
+.search button:disabled {
+    cursor: not-allowed;
 }
 
 .loader {
@@ -145,4 +146,116 @@
         font-size: 6px;
         opacity: 0;
     }
+}
+
+.weather {
+    width: 100%;
+    height: 100%;
+}
+
+.weather-div {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    width: 100%;
+    height: 800px;
+    padding-inline: 0.5rem;
+    gap: 2rem 0;
+}
+
+.location-time-div {
+    padding-top: 3rem;
+    text-align: center;
+    grid-column: span 2;
+    grid-row: 1;
+}
+
+.location-time-div .main {
+    height: 55px;
+    font-size: 50px;
+}
+
+.location-time-div .sub {
+    font-size: 24px;
+}
+
+.location-time-div .time {
+    font-size: 20px;
+}
+
+.weather-div .icon {
+    width: 115px;
+    grid-row: 2;
+    align-self: center;
+    justify-self: end;
+}
+
+.temp-scale-div {
+    display: flex;
+    justify-content: center;
+    grid-column: span 2;
+    grid-row: 2;
+    align-self: center;
+}
+
+.temp-scale-div .temp-div {
+    display: flex;
+    font-size: 69px;
+}
+
+.temp-scale-div .scale-div {
+    color: #696969;
+}
+
+.scale-div button {
+    flex-grow: 0;
+    border: none;
+    font-size: 24px;
+    background-color: transparent;
+}
+
+.condition-desc-div {
+    text-align: center;
+    grid-column: span 2;
+}
+
+.condition-desc-div .condition {
+    font-size: 24px;
+}
+
+.condition-desc-div .description {
+    font-size: 20px;
+}
+
+.carousel-div {
+    width: 100%;
+    grid-column: span 2;
+}
+
+.carousel-div .weather-properties-div {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 1rem 0;
+}
+
+.weather-properties-div .square-div {
+    width: 150px;
+    height: 130px;
+    background-color: #DFE1E5;
+    border-radius: 24px;
+    padding: 1rem;
+}
+
+.square-div .square-content,
+.square-content span {
+    display: flex;
+    justify-content: center;
+    font-size: 32px;
+}
+
+.square-content i {
+    font-style: normal;
+    font-size: 20px;
 }
