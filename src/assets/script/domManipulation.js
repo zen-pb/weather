@@ -224,8 +224,11 @@ function getIcon(data) {
 }
 
 function getTemp(data) {
-  const fahrenheit = data.currentConditions.temp;
-  const celsius = (fahrenheit - 32) / 1.8;
+  let fahrenheit = data.currentConditions.temp;
+  let celsius = (fahrenheit - 32) / 1.8;
+
+  fahrenheit = Math.ceil(fahrenheit);
+  celsius = Math.ceil(celsius)
 
   return { fahrenheit, celsius };
 }
@@ -241,10 +244,15 @@ function getDescription(data) {
 function getProperties(data) {
   const feelsLikeF = data.currentConditions.feelslike;
   const feelsLikeC = (feelsLikeF - 32) / 1.8;
-  const humidity = data.currentConditions.humidity;
-  const precipitation = data.currentConditions.precipprob;
+  const humidity = Math.ceil(data.currentConditions.humidity);
+  const precipitation = Math.ceil(data.currentConditions.precipprob);
   const windM = data.currentConditions.windspeed;
   const windKM = windM * 1.60934;
 
-  return [[feelsLikeF, feelsLikeC], humidity, precipitation, [windM, windKM]];
+  return [
+    [Math.ceil(feelsLikeF), Math.ceil(feelsLikeC)],
+    humidity,
+    precipitation,
+    [Math.ceil(windM), Math.ceil(windKM)],
+  ];
 }
