@@ -139,7 +139,7 @@ function loadData(data) {
   conditionDescriptionDiv.append(condition, description);
 
   const carouselDiv = document.createElement("div");
-  carouselDiv.className = "carouselDiv";
+  carouselDiv.className = "carousel-div";
 
   const weatherPropertiesDiv = document.createElement("div");
   weatherPropertiesDiv.className = "weather-properties-div";
