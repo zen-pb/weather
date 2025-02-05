@@ -148,7 +148,7 @@ function loadData(data) {
 
   cleanData.properties.forEach((property, index) => {
     const squareDiv = document.createElement("div");
-    squareDiv.className = "sqaure-div";
+    squareDiv.className = "square-div";
 
     const title = document.createElement("h3");
     title.className = "square-title";
