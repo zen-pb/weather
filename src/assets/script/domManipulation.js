@@ -160,17 +160,26 @@ function loadData(data) {
     if (index === 0) {
       property.forEach((item, index) => {
         const span = document.createElement("span");
-        span.textContent = index === 0 ? `${item}°F` : `${item}°C`;
+        span.textContent = item;
+        const i = document.createElement("i");
+        i.textContent = index === 0 ? "°F" : "°C";
+        span.appendChild(i);
         content.appendChild(span);
       });
     } else if (index === 3) {
       property.forEach((item, index) => {
         const span = document.createElement("span");
-        span.textContent = index === 0 ? `${item}°mph` : `${item}°km/h`;
+        span.textContent = item;
+        const i = document.createElement("i");
+        i.textContent = index === 0 ? "mph" : "km/h";
+        span.appendChild(i);
         content.appendChild(span);
       });
     } else {
-      content.textContent = property + "%";
+      content.textContent = property;
+      const i = document.createElement("i");
+      i.textContent = "%";
+      content.appendChild(i);
     }
 
     squareDiv.append(title, content);
@@ -228,7 +237,7 @@ function getTemp(data) {
   let celsius = (fahrenheit - 32) / 1.8;
 
   fahrenheit = Math.ceil(fahrenheit);
-  celsius = Math.ceil(celsius)
+  celsius = Math.ceil(celsius);
 
   return { fahrenheit, celsius };
 }
