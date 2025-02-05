@@ -69,7 +69,7 @@ function loadData(data) {
   };
 
   const container = document.createElement("div");
-  container.className = "weather";
+  container.className = "weather-div";
 
   const locationTimeDiv = document.createElement("div");
   locationTimeDiv.className = "location-time-div";
