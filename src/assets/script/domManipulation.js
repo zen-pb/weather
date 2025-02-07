@@ -346,7 +346,17 @@ function generateCarousel(cleanData) {
   });
 
   slides.append(weatherPropertiesDiv, dailyDiv);
-  slider.append(slides);
+
+  const indicatorDiv = document.createElement("div");
+  indicatorDiv.className = "indicator-div";
+
+  slides.childElementCount.forEach((dot) => {
+    const dotDiv = document.createElement("div");
+    dotDiv.className = "dot-div";
+    indicatorDiv.appendChild(dotDiv);
+  });
+
+  slider.append(slides, indicatorDiv);
 
   return slider;
 }
