@@ -195,11 +195,17 @@
     grid-column: span 2;
     grid-row: 2;
     align-self: center;
+    margin-left: .5rem;
+    width: 205px;
 }
 
 .temp-scale-div .temp-div {
     display: flex;
     font-size: 69px;
+}
+
+.temp-div h2:not(.active) {
+    display: none;
 }
 
 .temp-scale-div .scale-div {
@@ -213,6 +219,13 @@
     border: none;
     font-size: 24px;
     background-color: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.scale-div .active {
+    font-weight: bold;
+    color: #000;
 }
 
 .condition-desc-div {
@@ -272,6 +285,8 @@
     background-color: #DFE1E5;
     border-radius: 24px;
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .square-div .square-content,
@@ -279,6 +294,14 @@
     display: flex;
     justify-content: center;
     font-size: 32px;
+}
+
+.square-content {
+    margin-top: 5px;
+}
+
+.square-content span:not(.active) {
+    display: none;
 }
 
 .square-content i {
@@ -333,8 +356,16 @@
     font-size: 18px;
 }
 
+.day-temp-div span:not(.active) {
+    display: none;
+}
+
 .day-temp-div i {
     font-style: normal;
+}
+
+.max-temp {
+    font-weight: bold;
 }
 
 .indicator-div {
