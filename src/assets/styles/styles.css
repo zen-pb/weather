@@ -333,6 +333,10 @@
     font-size: 18px;
 }
 
+.day-temp-div i {
+    font-style: normal;
+}
+
 .indicator-div {
     margin-top: 12px;
     display: flex;
