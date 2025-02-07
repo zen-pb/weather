@@ -337,7 +337,7 @@ function generateCarousel(cleanData) {
       const i = document.createElement("i");
       i.textContent = "°";
       span.appendChild(i);
-      maxTemp.appendChild(span);
+      minTemp.appendChild(span);
     });
 
     tempDiv.append(maxTemp, minTemp);
