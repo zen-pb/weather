@@ -240,10 +240,6 @@ function getDaily(data) {
   return data.days;
 }
 
-function getHourly(data) {
-  return data.days[0].hours;
-}
-
 function generateCarousel(cleanData) {
   const slider = document.createElement("div");
   slider.className = "carousel-div";
