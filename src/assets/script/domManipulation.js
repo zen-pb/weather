@@ -183,7 +183,7 @@ function getLocationDateTime(data, type = "full") {
       .replace("AM", "am");
   } else if (type === "day") {
     timestamp = data.datetimeEpoch;
-    formattedDateTime = format(new Date(timestamp * 1000), "EEEE");
+    formattedDateTime = format(new Date(timestamp * 1000), "EEE");
   }
 
   return formattedDateTime;
