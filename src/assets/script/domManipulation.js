@@ -67,7 +67,6 @@ function loadData(data) {
     description: getDescription(data),
     properties: getProperties(data),
     daily: getDaily(data),
-    hourly: getHourly(data),
   };
 
   const container = document.createElement("div");
@@ -297,22 +296,6 @@ function generateCarousel(cleanData) {
     weatherPropertiesDiv.appendChild(squareDiv);
   });
 
-  const timeDailyHourlyDiv = document.createElement("div");
-  timeDailyHourlyDiv.className = "time-daily-hour-div";
-
-  const timeMenuDiv = document.createElement("div");
-  timeMenuDiv.className = "time-menu-div";
-
-  const dailyBTN = document.createElement("button");
-  dailyBTN.id = "daily";
-  dailyBTN.textContent = "Daily";
-
-  const hourlyBTN = document.createElement("button");
-  hourlyBTN.id = "hourly";
-  hourlyBTN.textContent = "Hourly";
-
-  timeMenuDiv.append(dailyBTN, hourlyBTN);
-
   const dailyDiv = document.createElement("div");
   dailyDiv.className = "daily-div";
 
@@ -362,9 +345,7 @@ function generateCarousel(cleanData) {
     dailyDiv.append(dayDiv);
   });
 
-  timeDailyHourlyDiv.append(timeMenuDiv, dailyDiv);
-
-  slides.append(weatherPropertiesDiv, timeDailyHourlyDiv);
+  slides.append(weatherPropertiesDiv, dailyDiv);
   slider.append(slides);
 
   return slider;
