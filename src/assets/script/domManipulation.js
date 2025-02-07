@@ -61,8 +61,8 @@ function loadData(data) {
     locationSub: getLocationSub(data),
     locationTime: getLocationDateTime(data),
     icon: getIcon(data),
-    fTemp: getTemp(data).fahrenheit,
-    cTemp: getTemp(data).celsius,
+    fTemp: getTemp(data)[0],
+    cTemp: getTemp(data)[1],
     condition: getCondition(data),
     description: getDescription(data),
     properties: getProperties(data),
@@ -210,7 +210,7 @@ function getTemp(data, type = "current") {
   fahrenheit = Math.ceil(fahrenheit);
   celsius = Math.ceil(celsius);
 
-  return { fahrenheit, celsius };
+  return [fahrenheit, celsius];
 }
 
 function getCondition(data) {
@@ -305,9 +305,11 @@ function generateCarousel(cleanData) {
 
   const dailyBTN = document.createElement("button");
   dailyBTN.id = "daily";
+  dailyBTN.textContent = "Daily";
 
   const hourlyBTN = document.createElement("button");
   hourlyBTN.id = "hourly";
+  hourlyBTN.textContent = "Hourly";
 
   timeMenuDiv.append(dailyBTN, hourlyBTN);
 
@@ -329,13 +331,40 @@ function generateCarousel(cleanData) {
     const tempDiv = document.createElement("div");
     tempDiv.className = "day-temp-div";
 
-    const maxTemp = getTemp(day, "max");
-    console.log(maxTemp);
+    const maxTemp = document.createElement("p");
+    maxTemp.className = "max-temp";
+
+    const tempMax = getTemp(day, "max");
+    tempMax.forEach((temp) => {
+      const span = document.createElement("span");
+      span.textContent = `${temp}`;
+      const i = document.createElement("i");
+      i.textContent = "°";
+      span.appendChild(i);
+      maxTemp.appendChild(span);
+    });
+
+    const minTemp = document.createElement("p");
+    minTemp.className = "min-temp";
+
+    const tempMin = getTemp(day, "min");
+    tempMin.forEach((temp) => {
+      const span = document.createElement("span");
+      span.textContent = `${temp}`;
+      const i = document.createElement("i");
+      i.textContent = "°";
+      span.appendChild(i);
+      maxTemp.appendChild(span);
+    });
+
+    tempDiv.append(maxTemp, minTemp);
+    dayDiv.append(dayOfWeek, icon, tempDiv);
+    dailyDiv.append(dayDiv);
   });
 
-  timeDailyHourlyDiv.append(timeMenuDiv);
+  timeDailyHourlyDiv.append(timeMenuDiv, dailyDiv);
 
-  slides.append(weatherPropertiesDiv);
+  slides.append(weatherPropertiesDiv, timeDailyHourlyDiv);
   slider.append(slides);
 
   return slider;
