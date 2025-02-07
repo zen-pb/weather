@@ -24,12 +24,12 @@ export default function domManipulation() {
 
         const locationData = await weatherAPI(location);
 
-        console.log(locationData);
-
         content.replaceChildren(loadData(locationData));
         content.classList.add("weather");
         searchInput.disabled = false;
         searchBTN.disabled = false;
+
+        changeScaleHandler();
       }
     }
   };
@@ -104,11 +104,11 @@ function loadData(data) {
   tempDiv.className = "temp-div";
 
   const fTemp = document.createElement("h2");
-  fTemp.className = "f-temp";
+  fTemp.id = "fScale";
   fTemp.textContent = cleanData.fTemp;
 
   const cTemp = document.createElement("h2");
-  cTemp.className = "c-temp";
+  cTemp.id = "cScale";
   cTemp.textContent = cleanData.cTemp;
 
   const scaleDiv = document.createElement("div");
@@ -117,7 +117,6 @@ function loadData(data) {
   const fScale = document.createElement("button");
   fScale.id = "fScale";
   fScale.textContent = "°F";
-  fScale.className = "active";
 
   const cScale = document.createElement("button");
   cScale.id = "cScale";
@@ -267,20 +266,19 @@ function generateCarousel(cleanData) {
     if (index === 0) {
       property.forEach((item, index) => {
         const span = document.createElement("span");
-        span.textContent = item;
-        const i = document.createElement("i");
-        i.textContent = index === 0 ? "°F" : "°C";
-        i.id = index === 0 ? "fScale" : "cScale";
-        span.appendChild(i);
+        span.textContent = `${item}°`;
+        span.id = index === 0 ? "fScale" : "cScale";
+
         content.appendChild(span);
       });
     } else if (index === 3) {
       property.forEach((item, index) => {
         const span = document.createElement("span");
         span.textContent = item;
+        span.id = index === 0 ? "fScale" : "cScale";
         const i = document.createElement("i");
         i.textContent = index === 0 ? "mph" : "km/h";
-        i.id = index === 0 ? "fScale" : "cScale";
+
         span.appendChild(i);
         content.appendChild(span);
       });
@@ -319,11 +317,9 @@ function generateCarousel(cleanData) {
     const tempMax = getTemp(day, "max");
     tempMax.forEach((temp, index) => {
       const span = document.createElement("span");
-      span.textContent = `${temp}`;
+      span.textContent = `${temp}°`;
       span.id = index === 0 ? "fScale" : "cScale";
-      const i = document.createElement("i");
-      i.textContent = "°";
-      span.appendChild(i);
+
       maxTemp.appendChild(span);
     });
 
@@ -362,4 +358,42 @@ function generateCarousel(cleanData) {
   slider.append(slides, indicatorDiv);
 
   return slider;
+}
+
+function changeScaleHandler() {
+  const fScales = document.querySelectorAll("#fScale");
+  const cScales = document.querySelectorAll("#cScale");
+
+  fScales.forEach((fScale) => {
+    fScale.className = "active";
+  });
+
+  const cScaleBTN = document.querySelector("button#cScale");
+  const fScaleBTN = document.querySelector("button#fScale");
+
+  const makeCScalesActive = (event) => {
+    event.stopPropagation();
+    fScales.forEach((fScale) => {
+      fScale.className = "";
+    });
+
+    cScales.forEach((cScale) => {
+      cScale.className = "active";
+    });
+  };
+
+  const makeFScalesActive = (event) => {
+    event.stopPropagation();
+
+    cScales.forEach((cScale) => {
+      cScale.className = "";
+    });
+
+    fScales.forEach((fScale) => {
+      fScale.className = "active";
+    });
+  };
+
+  cScaleBTN.addEventListener("click", makeCScalesActive);
+  fScaleBTN.addEventListener("click", makeFScalesActive);
 }
