@@ -117,6 +117,7 @@ function loadData(data) {
   const fScale = document.createElement("button");
   fScale.id = "fScale";
   fScale.textContent = "°F";
+  fScale.className = "active";
 
   const cScale = document.createElement("button");
   cScale.id = "cScale";
@@ -269,6 +270,7 @@ function generateCarousel(cleanData) {
         span.textContent = item;
         const i = document.createElement("i");
         i.textContent = index === 0 ? "°F" : "°C";
+        i.id = index === 0 ? "fScale" : "cScale";
         span.appendChild(i);
         content.appendChild(span);
       });
@@ -278,6 +280,7 @@ function generateCarousel(cleanData) {
         span.textContent = item;
         const i = document.createElement("i");
         i.textContent = index === 0 ? "mph" : "km/h";
+        i.id = index === 0 ? "fScale" : "cScale";
         span.appendChild(i);
         content.appendChild(span);
       });
@@ -314,9 +317,10 @@ function generateCarousel(cleanData) {
     maxTemp.className = "max-temp";
 
     const tempMax = getTemp(day, "max");
-    tempMax.forEach((temp) => {
+    tempMax.forEach((temp, index) => {
       const span = document.createElement("span");
       span.textContent = `${temp}`;
+      span.id = index === 0 ? "fScale" : "cScale";
       const i = document.createElement("i");
       i.textContent = "°";
       span.appendChild(i);
@@ -327,9 +331,10 @@ function generateCarousel(cleanData) {
     minTemp.className = "min-temp";
 
     const tempMin = getTemp(day, "min");
-    tempMin.forEach((temp) => {
+    tempMin.forEach((temp, index) => {
       const span = document.createElement("span");
       span.textContent = `${temp}`;
+      span.id = index === 0 ? "fScale" : "cScale";
       const i = document.createElement("i");
       i.textContent = "°";
       span.appendChild(i);
