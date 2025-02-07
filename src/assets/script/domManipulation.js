@@ -59,13 +59,15 @@ function loadData(data) {
   const cleanData = {
     locationMain: getLocationMain(data),
     locationSub: getLocationSub(data),
-    locationTime: getLocationTime(data),
+    locationTime: getLocationDateTime(data),
     icon: getIcon(data),
     fTemp: getTemp(data).fahrenheit,
     cTemp: getTemp(data).celsius,
     condition: getCondition(data),
     description: getDescription(data),
     properties: getProperties(data),
+    daily: getDaily(data),
+    hourly: getHourly(data),
   };
 
   const container = document.createElement("div");
@@ -138,8 +140,117 @@ function loadData(data) {
 
   conditionDescriptionDiv.append(condition, description);
 
-  const carouselDiv = document.createElement("div");
-  carouselDiv.className = "carousel-div";
+  const carouselDiv = generateCarousel(cleanData);
+
+  container.append(
+    locationTimeDiv,
+    icon,
+    tempScaleDiv,
+    conditionDescriptionDiv,
+    carouselDiv
+  );
+
+  return container;
+}
+
+function getLocationMain(data) {
+  let locationMain = data.resolvedAddress;
+  const targetIndex = locationMain.indexOf(",");
+
+  if (targetIndex !== -1) {
+    locationMain = locationMain.substring(0, targetIndex);
+  }
+
+  return locationMain;
+}
+
+function getLocationSub(data) {
+  return data.resolvedAddress
+    .replace(" ", "")
+    .split(",")
+    .splice(1, 2)
+    .join(",");
+}
+
+function getLocationDateTime(data, type = "full") {
+  let timestamp;
+  let formattedDateTime;
+
+  if (type === "full") {
+    timestamp = data.currentConditions.datetimeEpoch;
+    formattedDateTime = format(new Date(timestamp * 1000), "EEE dd MMM h:mm a");
+    formattedDateTime = formattedDateTime
+      .replace("PM", "pm")
+      .replace("AM", "am");
+  } else if (type === "day") {
+    timestamp = data.datetimeEpoch;
+    formattedDateTime = format(new Date(timestamp * 1000), "EEEE");
+  }
+
+  return formattedDateTime;
+}
+
+function getIcon(data) {
+  return weatherIcons[`${data.currentConditions.icon}`];
+}
+
+function getTemp(data, type = "current") {
+  let fahrenheit;
+
+  if (type === "current") {
+    fahrenheit = data.currentConditions.temp;
+  } else if (type === "max") {
+    fahrenheit = data.tempmax;
+  } else if (type === "min") {
+    fahrenheit = data.tempmin;
+  }
+
+  let celsius = (fahrenheit - 32) / 1.8;
+
+  fahrenheit = Math.ceil(fahrenheit);
+  celsius = Math.ceil(celsius);
+
+  return { fahrenheit, celsius };
+}
+
+function getCondition(data) {
+  return data.currentConditions.conditions;
+}
+
+function getDescription(data) {
+  return data.description;
+}
+
+function getProperties(data) {
+  const feelsLikeF = data.currentConditions.feelslike;
+  const feelsLikeC = (feelsLikeF - 32) / 1.8;
+  const humidity = Math.ceil(data.currentConditions.humidity);
+  const precipitation = Math.ceil(data.currentConditions.precipprob);
+  const windM = data.currentConditions.windspeed;
+  const windKM = windM * 1.60934;
+
+  return [
+    [Math.ceil(feelsLikeF), Math.ceil(feelsLikeC)],
+    humidity,
+    precipitation,
+    [Math.ceil(windM), Math.ceil(windKM)],
+  ];
+}
+
+function getDaily(data) {
+  return data.days;
+}
+
+function getHourly(data) {
+  return data.days[0].hours;
+}
+
+function generateCarousel(cleanData) {
+  const slider = document.createElement("div");
+  slider.className = "carousel-div";
+
+  const slides = document.createElement("div");
+  slides.className = "slides-div";
 
   const weatherPropertiesDiv = document.createElement("div");
   weatherPropertiesDiv.className = "weather-properties-div";
@@ -186,82 +297,46 @@ function loadData(data) {
     weatherPropertiesDiv.appendChild(squareDiv);
   });
 
-  carouselDiv.append(weatherPropertiesDiv);
+  const timeDailyHourlyDiv = document.createElement("div");
+  timeDailyHourlyDiv.className = "time-daily-hour-div";
 
-  container.append(
-    locationTimeDiv,
-    icon,
-    tempScaleDiv,
-    conditionDescriptionDiv,
-    carouselDiv
-  );
+  const timeMenuDiv = document.createElement("div");
+  timeMenuDiv.className = "time-menu-div";
 
-  return container;
-}
+  const dailyBTN = document.createElement("button");
+  dailyBTN.id = "daily";
 
-function getLocationMain(data) {
-  let locationMain = data.resolvedAddress;
-  const targetIndex = locationMain.indexOf(",");
+  const hourlyBTN = document.createElement("button");
+  hourlyBTN.id = "hourly";
 
-  if (targetIndex !== -1) {
-    locationMain = locationMain.substring(0, targetIndex);
-  }
+  timeMenuDiv.append(dailyBTN, hourlyBTN);
 
-  return locationMain;
-}
+  const dailyDiv = document.createElement("div");
+  dailyDiv.className = "daily-div";
 
-function getLocationSub(data) {
-  return data.resolvedAddress
-    .replace(" ", "")
-    .split(",")
-    .splice(1, 2)
-    .join(",");
-}
+  cleanData.daily.forEach((day) => {
+    const dayDiv = document.createElement("div");
+    dayDiv.className = "day-div";
 
-function getLocationTime(data) {
-  const timestamp = data.currentConditions.datetimeEpoch;
-  const date = new Date(timestamp * 1000);
+    const dayOfWeek = document.createElement("h3");
+    dayOfWeek.className = "day-name";
+    dayOfWeek.textContent = getLocationDateTime(day, "day");
 
-  let formattedDate = format(date, "EEE dd MMM h:mm a");
-  formattedDate = formattedDate.replace("PM", "pm").replace("AM", "am");
+    const icon = document.createElement("img");
+    icon.className = "day-icon";
+    icon.src = weatherIcons[`${day.icon}`];
 
-  return formattedDate;
-}
+    const tempDiv = document.createElement("div");
+    tempDiv.className = "day-temp-div";
 
-function getIcon(data) {
-  return weatherIcons[`${data.currentConditions.icon}`];
-}
+    const maxTemp = getTemp(day, "max");
+    console.log(maxTemp);
+  });
 
-function getTemp(data) {
-  let fahrenheit = data.currentConditions.temp;
-  let celsius = (fahrenheit - 32) / 1.8;
+  timeDailyHourlyDiv.append(timeMenuDiv);
 
-  fahrenheit = Math.ceil(fahrenheit);
-  celsius = Math.ceil(celsius);
+  slides.append(weatherPropertiesDiv);
+  slider.append(slides);
 
-  return { fahrenheit, celsius };
-}
-
-function getCondition(data) {
-  return data.currentConditions.conditions;
-}
-
-function getDescription(data) {
-  return data.description;
-}
-
-function getProperties(data) {
-  const feelsLikeF = data.currentConditions.feelslike;
-  const feelsLikeC = (feelsLikeF - 32) / 1.8;
-  const humidity = Math.ceil(data.currentConditions.humidity);
-  const precipitation = Math.ceil(data.currentConditions.precipprob);
-  const windM = data.currentConditions.windspeed;
-  const windKM = windM * 1.60934;
-
-  return [
-    [Math.ceil(feelsLikeF), Math.ceil(feelsLikeC)],
-    humidity,
-    precipitation,
-    [Math.ceil(windM), Math.ceil(windKM)],
-  ];
+  return slider;
 }
