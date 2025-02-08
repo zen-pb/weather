@@ -28,6 +28,7 @@ export default function domManipulation() {
           content.replaceChildren(loadData(locationData));
           content.classList.add("weather");
           searchDiv.style.display = "flex";
+          searchDiv.style.marginTop = "1rem"
           searchInput.disabled = false;
           searchBTN.disabled = false;
 
