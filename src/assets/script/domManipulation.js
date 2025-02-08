@@ -31,6 +31,7 @@ export default function domManipulation() {
           searchBTN.disabled = false;
 
           changeScaleHandler();
+          indicatorHandler();
         } catch (error) {
           console.log(error);
         }
@@ -252,7 +253,7 @@ function generateCarousel(cleanData) {
   slides.className = "slides-div";
 
   const weatherPropertiesDiv = document.createElement("div");
-  weatherPropertiesDiv.className = "weather-properties-div";
+  weatherPropertiesDiv.className = "weather-properties-div slides";
 
   const propertyNames = ["Feels Like", "Humidity", "Precipitation", "Wind"];
 
@@ -298,7 +299,7 @@ function generateCarousel(cleanData) {
   });
 
   const dailyDiv = document.createElement("div");
-  dailyDiv.className = "daily-div";
+  dailyDiv.className = "daily-div slides";
 
   cleanData.daily.forEach((day) => {
     const dayDiv = document.createElement("div");
@@ -351,13 +352,6 @@ function generateCarousel(cleanData) {
   const indicatorDiv = document.createElement("div");
   indicatorDiv.className = "indicator-div";
 
-  [1, 2].forEach((num) => {
-    const dot = document.createElement("div");
-    dot.className = "dot-div";
-    dot.id = num;
-    indicatorDiv.appendChild(dot);
-  });
-
   slider.append(slides, indicatorDiv);
 
   return slider;
@@ -399,4 +393,49 @@ function changeScaleHandler() {
 
   cScaleBTN.addEventListener("click", makeCScalesActive);
   fScaleBTN.addEventListener("click", makeFScalesActive);
+}
+
+function throttle(func, limit) {
+  let lastFunc;
+  let lastRan;
+  return function (...args) {
+    if (!lastRan) {
+      func.apply(this, args);
+      lastRan = Date.now();
+    } else {
+      clearTimeout(lastFunc);
+      lastFunc = setTimeout(() => {
+        if (Date.now() - lastRan >= limit) {
+          func.apply(this, args);
+          lastRan = Date.now();
+        }
+      }, limit - (Date.now() - lastRan));
+    }
+  };
+}
+
+function indicatorHandler() {
+  const carouselDiv = document.querySelector(".carousel-div");
+  const slidesDiv = carouselDiv.querySelector(".slides-div");
+  const slides = carouselDiv.querySelectorAll(".slides");
+  const indicatorDiv = carouselDiv.querySelector(".indicator-div");
+
+  slides.forEach(() => {
+    const dot = document.createElement("div");
+    dot.className = "dot-div";
+    indicatorDiv.appendChild(dot);
+  });
+
+  indicatorDiv.firstChild.classList.add("active");
+
+  slidesDiv.addEventListener(
+    "scroll",
+    throttle(() => {
+      const index = Math.round(slidesDiv.scrollLeft / slidesDiv.offsetWidth);
+
+      indicatorDiv.querySelectorAll(".dot-div").forEach((dot, i) => {
+        dot.classList.toggle("active", i === index);
+      });
+    }, 100) 
+  );
 }
