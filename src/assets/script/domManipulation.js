@@ -351,13 +351,12 @@ function generateCarousel(cleanData) {
   const indicatorDiv = document.createElement("div");
   indicatorDiv.className = "indicator-div";
 
-  Array.from({ length: slides.childElementCount })
-    .map(() => {
-      const dot = document.createElement("div");
-      dot.className = "dot-div";
-      return dot;
-    })
-    .forEach((dot) => indicatorDiv.appendChild(dot));
+  [1, 2].forEach((num) => {
+    const dot = document.createElement("div");
+    dot.className = "dot-div";
+    dot.id = num;
+    indicatorDiv.appendChild(dot);
+  });
 
   slider.append(slides, indicatorDiv);
 
