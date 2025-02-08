@@ -3,8 +3,8 @@ import weatherAPI from "./weatherAPI";
 import { weatherIcons } from "./imageHandler";
 
 export default function domManipulation() {
-  const container = document.querySelector(".container");
   const content = document.getElementById("content");
+  const searchDiv = document.querySelector(".search");
   const searchInput = document.getElementById("searchInput");
   const searchBTN = document.getElementById("searchBTN");
 
@@ -14,19 +14,20 @@ export default function domManipulation() {
         searchInput.focus();
       } else {
         const location = searchInput.value.trim();
+        searchDiv.style.display = "none";
         searchInput.value = "";
         searchInput.disabled = true;
         searchBTN.disabled = true;
 
         content.className = "";
         content.replaceChildren(Loader());
-        container.classList.add("gap");
 
         try {
           const locationData = await weatherAPI(location);
 
           content.replaceChildren(loadData(locationData));
           content.classList.add("weather");
+          searchDiv.style.display = "flex";
           searchInput.disabled = false;
           searchBTN.disabled = false;
 
@@ -436,6 +437,6 @@ function indicatorHandler() {
       indicatorDiv.querySelectorAll(".dot-div").forEach((dot, i) => {
         dot.classList.toggle("active", i === index);
       });
-    }, 100) 
+    }, 100)
   );
 }
