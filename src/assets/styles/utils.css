@@ -39,6 +39,7 @@ body {
     -webkit-font-smoothing: antialiased;
     font-family: "CeraRoundPro";
     height: 100dvh;
+    min-width: 320px;
 }
 
 /* 5. Improve media defaults */
