@@ -22,14 +22,18 @@ export default function domManipulation() {
         content.replaceChildren(Loader());
         container.classList.add("gap");
 
-        const locationData = await weatherAPI(location);
+        try {
+          const locationData = await weatherAPI(location);
 
-        content.replaceChildren(loadData(locationData));
-        content.classList.add("weather");
-        searchInput.disabled = false;
-        searchBTN.disabled = false;
+          content.replaceChildren(loadData(locationData));
+          content.classList.add("weather");
+          searchInput.disabled = false;
+          searchBTN.disabled = false;
 
-        changeScaleHandler();
+          changeScaleHandler();
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
   };
