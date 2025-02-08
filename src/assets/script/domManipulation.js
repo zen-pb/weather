@@ -4,39 +4,39 @@ import { weatherIcons } from "./imageHandler";
 
 export default function domManipulation() {
   const content = document.getElementById("content");
-  const searchDiv = document.querySelector(".search");
+  const form = document.querySelector(".search");
   const searchInput = document.getElementById("searchInput");
   const searchBTN = document.getElementById("searchBTN");
 
   const handleSubmit = async (event) => {
-    if (event.type === "click" || event.code === "Enter") {
-      if (isEmpty()) {
-        searchInput.focus();
-      } else {
-        const location = searchInput.value.trim();
-        searchDiv.style.display = "none";
-        searchInput.value = "";
-        searchInput.disabled = true;
-        searchBTN.disabled = true;
+    event.preventDefault();
 
-        content.className = "";
-        content.replaceChildren(Loader());
+    if (isEmpty()) {
+      searchInput.focus();
+    } else {
+      const location = searchInput.value.trim();
+      form.style.display = "none";
+      searchInput.value = "";
+      searchInput.disabled = true;
+      searchBTN.disabled = true;
 
-        try {
-          const locationData = await weatherAPI(location);
+      content.className = "";
+      content.replaceChildren(Loader());
 
-          content.replaceChildren(loadData(locationData));
-          content.classList.add("weather");
-          searchDiv.style.display = "flex";
-          searchDiv.style.marginTop = "1rem"
-          searchInput.disabled = false;
-          searchBTN.disabled = false;
+      try {
+        const locationData = await weatherAPI(location);
 
-          changeScaleHandler();
-          indicatorHandler();
-        } catch (error) {
-          console.log(error);
-        }
+        content.replaceChildren(loadData(locationData));
+        content.classList.add("weather");
+        form.style.display = "flex";
+        form.style.marginTop = "1rem";
+        searchInput.disabled = false;
+        searchBTN.disabled = false;
+
+        changeScaleHandler();
+        indicatorHandler();
+      } catch (error) {
+        console.log(error);
       }
     }
   };
@@ -50,9 +50,7 @@ export default function domManipulation() {
     return true;
   };
 
-  searchBTN.addEventListener("click", handleSubmit);
-
-  document.addEventListener("keydown", handleSubmit);
+  form.addEventListener("submit", handleSubmit);
 }
 
 function Loader() {
