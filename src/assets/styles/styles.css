@@ -11,10 +11,6 @@
     transition: gap 0.5s ease;
 }
 
-.gap {
-    gap: 2rem;
-}
-
 .text {
     text-align: center;
     flex-grow: 0;
@@ -410,6 +406,13 @@
 @media (width > 320px) {
     .weather-div {
         grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (height >=800px) {
+    .weather-div {
+        height: 900px;
+        gap: 3rem 0;
     }
 }
 
