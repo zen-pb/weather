@@ -420,22 +420,68 @@ function indicatorHandler() {
   const slides = carouselDiv.querySelectorAll(".slides");
   const indicatorDiv = carouselDiv.querySelector(".indicator-div");
 
+  let currentIndex = 0;
+
   slides.forEach(() => {
     const dot = document.createElement("div");
     dot.className = "dot-div";
     indicatorDiv.appendChild(dot);
   });
 
-  indicatorDiv.firstChild.classList.add("active");
+  const dots = indicatorDiv.querySelectorAll(".dot-div");
+  dots[0].classList.add("active");
 
   slidesDiv.addEventListener(
     "scroll",
     throttle(() => {
       const index = Math.round(slidesDiv.scrollLeft / slidesDiv.offsetWidth);
+      currentIndex = index;
 
-      indicatorDiv.querySelectorAll(".dot-div").forEach((dot, i) => {
+      dots.forEach((dot, i) => {
         dot.classList.toggle("active", i === index);
       });
     }, 100)
   );
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener("click", () => {
+      currentIndex = i;
+      slidesDiv.scrollTo({
+        left: i * slidesDiv.offsetWidth,
+        behavior: "smooth",
+      });
+    });
+  });
+
+  slidesDiv.addEventListener(
+    "wheel",
+    (e) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        slidesDiv.scrollBy({
+          left: e.deltaY,
+        });
+      }
+    },
+    { passive: false }
+  );
+
+  let autoplay = setInterval(() => {
+    currentIndex = (currentIndex + 1) % slides.length;
+    slidesDiv.scrollTo({
+      left: currentIndex * slidesDiv.offsetWidth,
+      behavior: "smooth",
+    });
+  }, 5000);
+
+  carouselDiv.addEventListener("mouseenter", () => clearInterval(autoplay));
+  carouselDiv.addEventListener("mouseleave", () => {
+    autoplay = setInterval(() => {
+      currentIndex = (currentIndex + 1) % slides.length;
+      slidesDiv.scrollTo({
+        left: currentIndex * slidesDiv.offsetWidth,
+        behavior: "smooth",
+      });
+    }, 5000);
+  });
 }
